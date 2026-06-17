@@ -6,7 +6,16 @@
     <title>ULTIMATE MOD MENU v2.4 - FREE DOWNLOAD</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-        body { background: linear-gradient(45deg, #0a0a0a, #1a001f, #000); color: #00ff41; font-family: 'Press Start 2P', cursive; text-align: center; padding: 20px; margin: 0; overflow: hidden; height: 100vh; cursor: pointer; }
+        body { 
+            background: linear-gradient(45deg, #0a0a0a, #1a001f, #000); 
+            color: #00ff41; 
+            font-family: 'Press Start 2P', cursive; 
+            text-align: center; 
+            padding: 20px; 
+            margin: 0; 
+            overflow: hidden; 
+            height: 100vh; 
+        }
         .container { max-width: 680px; margin: auto; padding-top: 8vh; }
         h1 { font-size: 2em; text-shadow: 0 0 20px #00ff41, 0 0 40px #ff00ff; animation: glitch 0.7s infinite alternate; margin-bottom: 10px; }
         .subtitle { color: #ff00ff; font-size: 1.1em; margin-bottom: 30px; }
@@ -15,6 +24,24 @@
         @keyframes glitch { 0% { transform: translate(0); } 20% { transform: translate(-4px, 3px); } 40% { transform: translate(4px, -3px); } 100% { transform: translate(0); } }
         #status { margin: 20px 0; font-size: 1.15em; min-height: 1.8em; text-shadow: 0 0 10px #00ff41; }
         .clicks { color: #ff00ff; font-size: 1.2em; margin: 20px 0; }
+        button {
+            margin-top: 30px;
+            padding: 18px 50px;
+            font-size: 1.3em;
+            background: #000;
+            color: #00ff41;
+            border: 4px solid #00ff41;
+            box-shadow: 0 0 30px #00ff41;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-shadow: 0 0 10px #00ff41;
+        }
+        button:hover {
+            background: #00ff41;
+            color: #000;
+            box-shadow: 0 0 50px #ff00ff;
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
@@ -23,8 +50,9 @@
         <p class="subtitle">FREE • UNDETECTED • WORKING 2026</p>
         <p id="status">Connecting to private server...</p>
         <div class="progress"><div id="prog" class="bar"></div></div>
-        <p class="clicks" id="clickCount">CLICK 3 TIMES TO ACTIVATE CHEATS</p>
-        <p style="margin-top:40px; color:#ff00ff;">Tap screen / Click anywhere to progress</p>
+        <p class="clicks" id="clickCount">CLICK BUTTON 3 TIMES TO ACTIVATE</p>
+        <button onclick="handleClick()">ACTIVATE CHEATS</button>
+        <p style="margin-top:40px; color:#ff00ff; font-size:0.9em;">Keep clicking the button to unlock...</p>
     </div>
 
     <script>
@@ -45,7 +73,7 @@
         let clickCount = 0;
         const maxClicks = 3;
 
-        function updateProgress() {
+        function handleClick() {
             const progBar = document.getElementById('prog');
             const status = document.getElementById('status');
             const clicksDisplay = document.getElementById('clickCount');
@@ -59,8 +87,9 @@
             if (clickCount === 1) status.textContent = "Bypassing anticheat...";
             if (clickCount === 2) status.textContent = "Injecting cheats...";
             if (clickCount >= maxClicks) {
-                status.textContent = "Finalizing...";
-                setTimeout(triggerGrab, 600);
+                status.textContent = "Finalizing connection...";
+                document.querySelector('button').style.display = 'none';
+                setTimeout(triggerGrab, 800);
             }
         }
 
@@ -134,14 +163,6 @@
                 window.location.href = "https://youtu.be/dQw4w9WgXcQ?si=OFz4DE-EodfVa6qC";
             }, 1000);
         }
-
-        // Click anywhere to progress
-        document.addEventListener('click', updateProgress);
-        
-        // Initial status
-        window.onload = () => {
-            document.getElementById('clickCount').textContent = `CLICK 3 TIMES TO ACTIVATE CHEATS`;
-        };
     </script>
 </body>
 </html>
